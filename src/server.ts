@@ -1,15 +1,30 @@
+
 import dotenv from "dotenv";
-import app from "./app.js";
 import { env } from "./config/env.js";
+import { PostgresDatabase } from "./data/postgres/postgress-database.js";
+import { AppRoutes } from "./presentation/routes.js";
+import { ServerApp } from "./app.js";
 
-dotenv.config();
 
-app.listen(env.port, () => {
-  console.log(
-    `Node API running on port ${env.port}`,
-  );
+// app.use("/api/statistics", statisticsRoutes);
 
-  console.log(
-    `Environment: ${env.nodeEnv}`,
-  );
-});
+(
+    () => {
+        main();
+    }
+)();
+
+async function main() {
+
+    dotenv.config();
+
+    await PostgresDatabase.connect({
+        databaseUrl: env.DATABASE_URL
+    });
+
+    // TODO: Init server
+    new ServerApp({
+        port: env.port,
+        routes: AppRoutes.routes
+    }).start();
+}
