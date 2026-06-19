@@ -38,6 +38,16 @@ export const env = {
     "*",
   ),
 
+  SEED_JWT: getEnv(
+    "SEED_JWT",
+    "",
+  ),
+
+  DATABASE_URL: getEnv(
+    "DATABASE_URL",
+    "",
+  ),
+
   isDevelopment:
     getEnv("NODE_ENV", "development") === "development",
 
