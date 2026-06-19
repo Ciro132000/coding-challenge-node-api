@@ -1,5 +1,5 @@
 
-import type { MatrixStatistics, StatisticsRequest, StatisticsResponse } from "../dtos/statistics.dto.js";
+import type { MatrixStatistics, StatisticsRequest, StatisticsResponse } from "../domain/index.js";
 import {
   flattenMatrix,
   isDiagonal,
