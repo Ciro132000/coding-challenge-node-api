@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage (tests)
+coverage/
+
+# Env files
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.*.local
+
+# TypeScript cache
+*.tsbuildinfo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Docker
+*.tar
+
+# Optional: runtime temp files
+tmp/
+temp/
+
+# npm cache (rare but safe)
+.npm/
+
+# ESLint cache
+.eslintcache
