@@ -40,7 +40,6 @@ export class PostgresDatabase {
     static get prisma(): PrismaClient {
 
         if (!this._prisma) {
-            console.log(this._prisma)
             throw new Error('PostgreSQL has not been initialized');
         }
 

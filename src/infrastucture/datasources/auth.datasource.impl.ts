@@ -32,7 +32,6 @@ export class AuthDataSourceImp implements AuthDatasource {
             return UserMapper.userEntityFromObject(user);
         } catch (error) {
             if(error instanceof CustomError) {
-                console.log(error)
                 throw error;
             }
 
@@ -46,15 +45,11 @@ export class AuthDataSourceImp implements AuthDatasource {
 
         try {
 
-            console.log(registerUserDto)
-
             const exist = await PostgresDatabase.prisma.user.findUnique({
                 where: {
                     email,
                 },
             });
-
-            console.log(exist)
 
             if(exist) throw CustomError.badRequest('User already exist');
 
@@ -70,7 +65,6 @@ export class AuthDataSourceImp implements AuthDatasource {
             return UserMapper.userEntityFromObject(user);
         } catch (error) {
             if(error instanceof CustomError) {
-                console.log(error)
                 throw error;
             }
 
