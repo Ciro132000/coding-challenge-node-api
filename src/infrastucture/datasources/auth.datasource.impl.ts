@@ -7,6 +7,14 @@ import { UserMapper } from "../mappers/user.mapper.js";
 type HashFunction = (password: string) => string;
 type CompareFunction = (password: string, hashed: string) => boolean;
 
+/**
+ * Implementación del Datasource de autenticación.
+ * 
+ * PROPÓSITO:
+ * Se utiliza para acceder directamente a los datos. Aquí reside toda la lógica
+ * específica para realizar consultas (queries) y mutaciones a la base de datos
+ * (en este caso, usando Prisma y PostgreSQL).
+ */
 export class AuthDataSourceImp implements AuthDatasource {
 
     constructor(
