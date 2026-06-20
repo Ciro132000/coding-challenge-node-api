@@ -8,7 +8,7 @@ export class GeneralRoutes {
         const router = Router();
         const controller = new GeneralController();
         
-        router.post('/ping', controller.ping);
+        router.get('/ping', controller.ping);
 
         return router;
     }
