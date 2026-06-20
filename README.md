@@ -1,103 +1,153 @@
-# Node API Challenge - Interseguros
+# Node API
 
-Este es el repositorio para el reto técnico de Interseguros, construido con Node.js, Express, TypeScript y Prisma (PostgreSQL). Sigue principios de arquitectura limpia para mantener el código escalable, mantenible y testeable. La aplicación principalmente expone estadisticas a partir de una matriz dada, adicional al al reto implementa una logica de authenticación para generar un JWT para la capa de authenticación.
+API desarrollada con Node.js, Express, TypeScript, Prisma y PostgreSQL. La aplicación expone estadísticas a partir de una matriz dada e incluye autenticación para generar tokens JWT usados por la capa de autorización.
 
-## 🚀 Requisitos Previos
+## Requisitos
 
-Antes de comenzar, asegúrate de tener instalado lo siguiente en tu sistema:
-- [Node.js](https://nodejs.org/en/) (Versión 22.x o superior)
-- [npm](https://www.npmjs.com/) (Gestor de paquetes de Node)
-- PostgreSQL (Base de datos relacional)
+- [Node.js](https://nodejs.org/en/) 22.x o superior
+- [npm](https://www.npmjs.com/)
+- PostgreSQL
+- Docker, solo si se desea ejecutar el servicio contenerizado
 
-## 🛠️ Instalación y Configuración
+## Variables de entorno
 
-Sigue estos pasos para levantar el proyecto en tu entorno local:
+Crear un archivo `.env` en la raíz del proyecto. Si existe una plantilla `.env.example`, copiarla como base:
 
-1. **Clonar el repositorio:**
-   Si aún no lo has hecho, clona este repositorio en tu máquina local.
+```bash
+cp .env.example .env
+```
 
-2. **Instalar las dependencias:**
-   Ejecuta el siguiente comando en la raíz del proyecto para descargar e instalar todas las dependencias necesarias:
-   ```bash
-   npm install
-   ```
+Completar los valores requeridos:
 
-3. **Configurar las variables de entorno:**
-   En la raíz del proyecto encontrarás un archivo llamado `.env.example`. Este archivo sirve como plantilla para las variables de entorno requeridas.
-   - Crea una copia de este archivo y renómbralo a `.env`.
-   - Abre el archivo `.env` y reemplaza los valores vacíos con la configuración correspondiente a tu entorno:
-     ```env
-     PORT=3100
-     CORS_ORIGIN=http://localhost:3000
-     SEED_JWT=tu_secreto_para_jwt
-     DATABASE_URL=postgresql://usuario:password@localhost:5432/nombre_db?schema=public
-     ```
+```env
+PORT=3001
+CORS_ORIGIN=http://localhost:3000
+SEED_JWT=tu_secreto_para_jwt
+DATABASE_URL=postgresql://usuario:password@localhost:5432/nombre_db?schema=public
+```
 
-4. **Levantar la base de datos (Prisma):**
-   Como el proyecto utiliza Prisma como ORM, es necesario sincronizar la base de datos y generar el cliente:
-   ```bash
-   npx prisma generate
-   npx prisma db push
-   ```
+| Variable | Descripción | Ejemplo |
+| --- | --- | --- |
+| `PORT` | Puerto donde se levanta la API. | `3001` |
+| `CORS_ORIGIN` | Origen permitido para CORS. | `http://localhost:3000` |
+| `SEED_JWT` | Secreto usado para firmar y validar tokens JWT. | `tu_secreto_para_jwt` |
+| `DATABASE_URL` | Cadena de conexión de PostgreSQL usada por Prisma. | `postgresql://usuario:password@localhost:5432/nombre_db?schema=public` |
 
-5. **Iniciar el servidor en modo desarrollo:**
-   Ejecuta el siguiente comando para correr el servidor con recarga en caliente (hot-reload):
-   ```bash
-   npm run dev
-   ```
-   El servidor debería estar corriendo en el puerto especificado (por defecto `3100`).
+## Instalación y ejecución local
 
-## 🏗️ Arquitectura y Patrones de Diseño
+Instalar dependencias:
 
-El proyecto está estructurado utilizando los principios de **Clean Architecture** y **Domain-Driven Design (DDD)**. Esta arquitectura se divide en capas con responsabilidades únicas:
+```bash
+npm install
+```
 
-- **Domain:** Contiene la lógica de negocio central (entidades, casos de uso, interfaces). No depende de ninguna otra capa.
-- **Infrastructure:** Implementa las interfaces definidas en el dominio (ej. repositorios que se conectan a Prisma).
-- **Presentation:** Punto de entrada de las peticiones (controladores, rutas, middlewares). Gestiona la interacción con el cliente y delega la lógica a los servicios o casos de uso.
-- **Data / Services:** Gestión de la conexión a la base de datos (Postgres) y servicios externos.
+Generar el cliente de Prisma y sincronizar la base de datos:
 
-Este enfoque permite que el código sea altamente testeable, desacoplado y fácil de mantener.
+```bash
+npx prisma generate
+npx prisma db push
+```
 
-## 📝 Convenciones de Código
+Levantar el servidor en modo desarrollo:
 
-Para mantener la legibilidad y consistencia del código, se han seguido las siguientes prácticas de codificación:
+```bash
+npm run dev
+```
 
-- **Variables y Funciones:** Se utiliza `camelCase` (ej. `errorMiddleware`, `startServer`).
-- **Clases e Interfaces:** Se utiliza `PascalCase` (ej. `ServerApp`, `PostgresDatabase`).
-- **Archivos:** Se utiliza `kebab-case` para los nombres de archivo y un sufijo descriptivo (ej. `error.middleware.ts`, `server.ts`).
-- **Tipado Fuerte:** Uso intensivo de TypeScript para prevenir errores en tiempo de ejecución.
-- **Comentarios y Documentación:** El código está documentado usando el formato JSDoc en español para facilitar su comprensión.
+La API quedará disponible en el puerto definido por `PORT`, por defecto `3001`.
 
-## 🧪 Pruebas
+## Scripts disponibles
 
-Para ejecutar la suite de pruebas unitarias (utilizando Jest), ejecuta:
+```bash
+npm run dev
+```
+
+Levanta el servidor en modo desarrollo con recarga automática usando `tsx watch`.
+
+```bash
+npm run build
+```
+
+Compila TypeScript y genera la carpeta `dist`.
+
+```bash
+npm start
+```
+
+Ejecuta la versión compilada desde `dist/server.js`.
+
 ```bash
 npm run test
 ```
 
-## 📦 Producción
+Ejecuta la suite de pruebas unitarias con Jest.
 
-Para construir y correr la versión optimizada para producción:
+## Pruebas
+
+Ejecutar todas las pruebas:
+
 ```bash
-npm run build
-npm run start
+npm run test
 ```
 
-## 🐳 Docker
+Las pruebas cubren utilidades de matrices, servicios de estadísticas, configuración JWT y componentes de soporte.
 
-El proyecto incluye un `Dockerfile` multiplataforma (usando construcciones multi-etapa o multi-stage builds) para crear una imagen Docker ligera y lista para producción.
+## Docker
 
-Para levantar el proyecto utilizando Docker:
+Construir la imagen:
 
-1. **Construir la imagen:**
-   Ejecuta el siguiente comando en la raíz del proyecto para construir la imagen Docker. Esto ejecutará la instalación de dependencias, la generación de Prisma y la compilación de TypeScript:
-   ```bash
-   docker build -t interseguros-node-api .
-   ```
+```bash
+docker build -t node-api .
+```
 
-2. **Ejecutar el contenedor:**
-   Una vez construida la imagen, levanta un contenedor mapeando el puerto expuesto (`8080` por defecto en la imagen) y pasando tus variables de entorno (asegúrate de que `DATABASE_URL` apunte a una base de datos accesible desde el contenedor):
-   ```bash
-   docker run -p 8080:8080 --env-file .env interseguros-node-api
-   ```
-   *Nota:* Puedes usar el archivo `.env` que configuraste previamente, pero asegúrate de ajustar las URLs si los servicios están en otras redes u otros contenedores (por ejemplo, usando `host.docker.internal` para alcanzar el localhost del host).
+Ejecutar el contenedor:
+
+```bash
+docker run -p 8080:8080 --env-file .env node-api
+```
+
+Asegúrate de que `DATABASE_URL` apunte a una base de datos accesible desde el contenedor. En desarrollo local con Docker puede ser necesario usar `host.docker.internal` para alcanzar el PostgreSQL del host.
+
+El `Dockerfile` usa una construcción multi-stage: primero instala dependencias, genera Prisma y compila TypeScript; luego crea una imagen final con dependencias de producción y los archivos compilados.
+
+## Arquitectura y patrón usado
+
+El proyecto está estructurado con principios de Clean Architecture y Domain-Driven Design. Esta arquitectura divide responsabilidades en capas:
+
+- `domain`: lógica de negocio central, entidades, DTOs, errores e interfaces.
+- `infrastucture`: implementaciones concretas de interfaces del dominio, como datasources, repositorios y mappers.
+- `presentation`: punto de entrada HTTP, rutas, controladores y middlewares.
+- `data`: configuración de persistencia y conexión a PostgreSQL.
+- `services`: servicios de aplicación, como cálculo de estadísticas.
+- `config`: adaptadores y configuración transversal, como JWT, bcrypt, logger y variables de entorno.
+- `utils`: utilidades y validadores compartidos.
+
+Este enfoque permite que el código sea testeable, desacoplado y fácil de mantener.
+
+## Estructura del proyecto
+
+```text
+src/
+  app.ts                         Configuración principal de Express
+  server.ts                      Punto de entrada del servidor
+  config/                        Configuración transversal
+  data/postgres/                 Conexión con PostgreSQL
+  domain/                        Entidades, DTOs, errores e interfaces
+  infrastucture/                 Implementaciones de datasources y repositorios
+  presentation/                  Rutas, controladores y middlewares HTTP
+  services/                      Servicios de aplicación
+  utils/                         Utilidades y validadores
+prisma/
+  schema.prisma                  Modelo de datos de Prisma
+  migrations/                    Migraciones de base de datos
+```
+
+## Convenciones de código
+
+- Lenguaje principal: TypeScript.
+- Variables y funciones: `camelCase`, por ejemplo `errorMiddleware`, `startServer`.
+- Clases, interfaces y tipos: `PascalCase`, por ejemplo `ServerApp`, `PostgresDatabase`, `UserEntity`.
+- Constantes de entorno: `UPPER_SNAKE_CASE`, por ejemplo `DATABASE_URL`, `SEED_JWT`.
+- Archivos: nombres descriptivos en minúsculas, separados por punto cuando expresan responsabilidad, por ejemplo `error.middleware.ts` y `statistics.service.ts`.
+- Tipado fuerte: uso intensivo de TypeScript para prevenir errores en tiempo de ejecución.
+- Comentarios: documentación JSDoc en español para módulos, clases o funciones donde aporta contexto.

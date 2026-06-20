@@ -13,15 +13,15 @@ export class RegisterUserDto {
 
     static create(object: {[key: string]: any}): [string | undefined, RegisterUserDto?] {
 
-        if(!object) return ['Missing object']
+        if(!object) return ['Objeto faltante']
 
         const {name, email, password} = object;
 
-        if (!name) return ['Missing name'];
-        if (!email) return ['Missing email'];
-        if(!Validators.email.test(email)) return ['Email is not valid'];
-        if(!password) return ['Missing password'];
-        if(password.length < 6) return ['Password too short'];
+        if (!name) return ['Nombre es requerido'];
+        if (!email) return ['Email es requerido'];
+        if(!Validators.email.test(email)) return ['Email no es válido use un email válido: correo@ejemplo.com'];
+        if(!password) return ['Contraseña es requerida'];
+        if(password.length < 6) return ['La contraseña es muy corta, debe ser mayor o igual a 6 digitos'];
 
         return [
             undefined,

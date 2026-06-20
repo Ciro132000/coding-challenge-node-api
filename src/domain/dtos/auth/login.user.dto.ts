@@ -11,14 +11,13 @@ export class LoginUserDto {
 
     static create(object: {[key: string]: any}): [string | undefined, LoginUserDto?] {
 
-        if(!object) return ['Missing object']
+        if(!object) return ['Objeto faltante']
 
         const { email, password} = object;
 
-        if (!email) return ['Missing email'];
-        if(!Validators.email.test(email)) return ['Email is not valid'];
-        if(!password) return ['Missing password'];
-        if(password.length < 6) return ['Password too short'];
+        if (!email) return ['Email es requerido'];
+        if(!Validators.email.test(email)) return ['Email no es válido use un email válido: correo@ejemplo.com'];
+        if(!password) return ['La contraseña es muy corta, debe ser mayor o igual a 6 digitos'];
 
         return [
             undefined,
