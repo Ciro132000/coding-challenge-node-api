@@ -31,10 +31,11 @@ export class ServerApp {
         );
         this.app.use( express.json() );
         this.app.use( express.urlencoded({ extended: true }));
-        this.app.use(errorMiddleware);
-                
         // Definir las rutas
         this.app.use(this.routes);
+
+        // Error Middleware
+        this.app.use(errorMiddleware);
 
         this.app.listen(this.port, () => {
             console.log(`Server listening on port ${this.port}`)
