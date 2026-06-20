@@ -7,7 +7,6 @@ export class MatrixRoutes {
         const router = Router();
         const controller = new MatrixController();
         
-        // Definir todas mis rutas principales
         router.post('/', controller.statisticsMatrix);
 
         return router;
